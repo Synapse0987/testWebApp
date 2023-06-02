@@ -1,43 +1,22 @@
 const gulp = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('gulp-autoprefixer');
-const cleanCSS = require('gulp-clean-css');
-const uglify = require('gulp-uglify');
+const browserSync = require('browser-sync').create();
+const port = process.env.PORT || 3000; // Use the port provided by Azure Web App or default to 3000
 
-// Paths
-const paths = {
-  src: {
-    sass: 'src/**/*.scss',
-    js: 'src/**/*.js'
-  },
-  dist: {
-    root: 'dist',
-    css: 'dist/css',
-    js: 'dist/js'
-  }
-};
+// Define a task to start the BrowserSync server
+gulp.task('browser-sync', () => {
+  browserSync.init({
+    server: {
+      baseDir: './',
+    },
+    port: port,
+    open: false, // Disable opening a browser window
+  });
+});
 
-// HTML task
-function html() {
-  return gulp.src('*.html') // Update the path to match your HTML file
-    .pipe(gulp.dest(paths.dist.root));
-}
+// Watch files and reload the browser on changes
+gulp.task('watch', gulp.series('browser-sync', () => {
+  gulp.watch(['*.html', 'css/*.css', 'js/*.js']).on('change', browserSync.reload);
+}));
 
-// CSS task
-function css() {
-  return gulp.src(paths.src.sass)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer())
-    .pipe(cleanCSS())
-    .pipe(gulp.dest(paths.dist.css));
-}
-
-// JS task
-function js() {
-  return gulp.src(paths.src.js)
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.dist.js));
-}
-
-// Default task
-gulp.task('default', gulp.series(gulp.parallel(html, css, js)));
+// Define the default task that runs the watch task
+gulp.task('default', gulp.series('watch'));
