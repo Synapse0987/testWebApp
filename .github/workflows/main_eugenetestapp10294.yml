@@ -37,7 +37,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BD0A79213B084FF1B0381DAFF4AFDF41 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7550267d8570461fb54cddea41d4a3e8 }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
   # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
