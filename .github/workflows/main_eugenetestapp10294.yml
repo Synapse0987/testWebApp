@@ -30,7 +30,6 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        npm install -g gulp-cli
         npm install
         npm run build
 
