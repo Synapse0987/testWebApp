@@ -30,8 +30,8 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        npm install
         npm install -g gulp-cli
+        npm install
         npm run build
 
     - name: 'Deploy to Azure WebApp'
